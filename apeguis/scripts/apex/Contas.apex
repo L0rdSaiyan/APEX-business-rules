@@ -1,11 +1,14 @@
-public class Contas{  //Classe específica para regenciar as regras de negócios no APEX
-    //Método sem retorno para criar a conta
-    public static void criarConta(String name){
+public class Contas {
+    // Método estático sem retorno para criar a conta
+    public void criarConta(String name) {
+        Boolean verificaVazia = name.equals('');
 
-        Account acc = new Account();
-        acc.Name = name
-        insert acc;
-
+        if (verificaVazia) {
+            System.debug('Impossível criar a conta sem um nome! Por favor, passe um parâmetro válido!'); // Lógica para tratar o caso da string estar vazia
+        } else {
+            Account acc = new Account();
+            acc.Name = name;
+            insert acc;
+        }
     }
-
 }

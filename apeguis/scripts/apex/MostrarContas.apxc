@@ -1,0 +1,16 @@
+public class MostrarContas {
+	
+    //Método que recebe o retorno do método retornaContas da classe selector diretamente em uma lista
+    public static void mostrarConta(){
+		//Lista que recebe o resultado da consulta
+        List<Account> conta = SelectAccounts.retornaContas();
+        //For each para realiar a iteração da lista
+        for(Account acc : conta){
+
+			System.debug(acc);
+}
+        
+}
+    
+    
+}

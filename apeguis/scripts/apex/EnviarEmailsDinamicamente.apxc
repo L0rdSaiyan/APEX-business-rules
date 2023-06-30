@@ -1,0 +1,25 @@
+public class EnviarEmailsDinamicamente {
+    public static void enviarEmailsDinamicos() {
+        //Lista que armazena a query para receber os emails dos leads
+        List<Lead> leads = [SELECT Email FROM Lead WHERE Email != null];
+
+        for (Lead lead : leads) {
+            Messaging.SingleEmailMessage meuEmail = new Messaging.SingleEmailMessage();
+            meuEmail.setToAddresses(new List<String>{ lead.Email });
+
+            // Defina o assunto e o corpo do email
+            meuEmail.setSubject('Assunto do Email');
+            meuEmail.setPlainTextBody('Corpo do email.');
+
+            // Envie o email
+            Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ meuEmail });
+            for (Messaging.SendEmailResult result : results) {
+                if (result.isSuccess()) {
+                    System.debug('O email foi enviado com sucesso.');
+                } else {
+                    System.debug('O email não pôde ser enviado. Erro: ' + result.getErrors()[0].getMessage());
+                }
+            }
+        }
+    }
+}

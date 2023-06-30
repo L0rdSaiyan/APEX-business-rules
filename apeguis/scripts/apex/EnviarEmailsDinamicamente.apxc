@@ -1,7 +1,7 @@
 public class EnviarEmailsDinamicamente {
     public static void enviarEmailsDinamicos() {
-        //Lista que armazena a query para receber os emails dos leads
-        List<Lead> leads = [SELECT Email FROM Lead WHERE Email != null];
+        //Lista que armazena a query para receber os emails dos leads com o limite de 9 para não exceder o batch de emails do salesforce
+        List<Lead> leads = [SELECT Email FROM Lead WHERE Email != NULL LIMIT 9];
 
         for (Lead lead : leads) {
             Messaging.SingleEmailMessage meuEmail = new Messaging.SingleEmailMessage();

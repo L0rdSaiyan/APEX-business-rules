@@ -1,0 +1,11 @@
+public class SelectAccounts {
+
+    //Método para retornar a transação DML com lista de contas 
+    public static List<Account> retornaContas(){
+	//Retorno da instrução DML
+	return [SELECT Id, Name FROM Account limit 3];
+
+    }
+    
+    
+}

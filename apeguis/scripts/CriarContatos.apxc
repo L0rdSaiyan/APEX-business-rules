@@ -1,0 +1,19 @@
+public class CriarContatos {
+
+    //Método de criação de contatos que recebe como parâmetros o nome da conta do relacionamento e o seu site para ser 
+    //instanciado e logo em seguida, recebe o parâmetro obrigatório para criação de conta 'lastName'.
+    public static void criarContato(String accountName, String accountWebSite, String lastName){
+        
+        //Chama o método criarConta ao qual retorna o id da conta criada para a variável idConta
+        Id idConta = Contas.criarConta(accountName, accountWebSite);
+        
+       //É instanciado um novo contato e atribuito os seus atributos, assim o id da conta pai
+        Contact contato = new Contact();
+        contato.LastName = 'Victor';
+        contato.AccountId = idConta;
+      //Insere o registro recém criado ao banco de dados SOQL da Org
+        insert contato;
+        
+    }
+    
+}

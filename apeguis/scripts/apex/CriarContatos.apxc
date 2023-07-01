@@ -5,7 +5,7 @@ public class CriarContatos {
     public static void criarContato(String accountName, String accountWebSite, String lastName){
         
         //Chama o método criarConta ao qual retorna o id da conta criada para a variável idConta
-        Id idConta = Contas.criarConta(accountName, accountWebSite);
+        ID idConta = Contas.criarConta(accountName, accountWebSite);
         
        //É instanciado um novo contato e atribuito os seus atributos, assim o id da conta pai
         Contact contato = new Contact();

@@ -1,0 +1,36 @@
+trigger transformar on Saiyan__c (before insert, before update) {
+    switch on Trigger.operationType {
+        // Executado antes de inserir registros
+        when BEFORE_INSERT {
+            for (Saiyan__c saiyan : trigger.new) {
+                if (saiyan.Power_Level__c == null) {
+                    // Adiciona uma mensagem de erro se o nível de poder não for declarado
+                    saiyan.Power_Level__c.addError('Você precisa declarar o nível de poder do Saiyajin ' + saiyan.Name + '!');
+                } else if (saiyan.Power_Level__c <= 0) {
+                    // Adiciona uma mensagem de erro se o nível de poder for igual ou menor que zero
+                    saiyan.Power_Level__c.addError('O poder do saiyajin ' + saiyan.Name + ' não pode ser igual ou menor que zero (0)!');
+                }
+                if (saiyan.Transformation__c == null) {
+                    // Define o valor padrão "Base" para o campo "Transformation__c" se não estiver definido
+                    saiyan.Transformation__c = 'Base';
+                }
+            }
+        }
+        // Executado antes de atualizar registros
+        when BEFORE_UPDATE {
+            for (Saiyan__c saiyan : trigger.new) {
+                if (saiyan.Power_Level__c == null) {
+                    // Adiciona uma mensagem de erro se o nível de poder não for declarado
+                    saiyan.Power_Level__c.addError('Você precisa declarar o nível de poder do Saiyajin ' + saiyan.Name + '!');
+                } else if (saiyan.Power_Level__c <= 0) {
+                    // Adiciona uma mensagem de erro se o nível de poder for igual ou menor que zero
+                    saiyan.Power_Level__c.addError('O poder do saiyajin ' + saiyan.Name + ' não pode ser igual ou menor que zero (0)!');
+                }
+                if (saiyan.Transformation__c == null) {
+                    // Define o valor padrão "Base" para o campo "Transformation__c" se não estiver definido
+                    saiyan.Transformation__c = 'Base';
+                }
+            }
+        }
+    }
+}

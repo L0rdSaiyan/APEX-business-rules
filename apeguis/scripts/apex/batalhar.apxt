@@ -1,50 +1,18 @@
 trigger batalhar on Batalha__c (after insert, after update, before delete) {
-
     switch on Trigger.operationType {
-
         when AFTER_INSERT {
-
-            List<Id> saiyansToUpdate = new List<Id>();
+           
+            //chamada dos métodos 
+			BatalhaTriggerHandler.updateRelatedRecordsAfterInsert(Trigger.new);
+            BatalhaTriggerHandler.howManyBattlesCounterAfterInsert(Trigger.new);
             
-              
-
-            for (Batalha__c batalha : Trigger.new) {
-                // Verifique se há uma referência ao Saiyan pelo campo Participante_1__c
-                if (batalha.Participante_1__c != null) {
-                    saiyansToUpdate.add(batalha.Participante_1__c);
-                }
-          
-            }
-
-            if (!saiyansToUpdate.isEmpty()) {
-                List<Saiyan__c> saiyans = [SELECT Id, Name, esta_em_batalha__c FROM Saiyan__c WHERE Id IN :saiyansToUpdate];
-                for (Saiyan__c saiyan : saiyans) {
-                    saiyan.esta_em_batalha__c = 'Sim';
-                }
-                update saiyans;
-            }
-
         }
-
+        //Antes de deletar do banco de dados
         when BEFORE_DELETE {
 
-            List<Id> saiyansToUpdate = new List<Id>();
+            BatalhaTriggerHandler.updateRelatedRecordsBeforeDelete(Trigger.old);
 
-            for (Batalha__c batalha : Trigger.old) {
-                if (batalha.Participante_1__c != null) {
-                    saiyansToUpdate.add(batalha.Participante_1__c);
-                }
-              
-            }
-
-            if (!saiyansToUpdate.isEmpty()) {
-                List<Saiyan__c> saiyans = [SELECT Id, Name, esta_em_batalha__c FROM Saiyan__c WHERE Id IN :saiyansToUpdate];
-                for (Saiyan__c saiyan : saiyans) {
-                    saiyan.esta_em_batalha__c = 'Não';
-                }
-                update saiyans;
-            }
-
-        }
+            
     }
+}
 }

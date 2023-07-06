@@ -1,0 +1,106 @@
+public class BatalhaTriggerHandler {
+    
+    // Método que atualiza os registros relacionados aos registros do objeto Batalha__c e recebe
+    // como parâmetro, a lista de registros afetados pela Trigger com Trigger.new
+    public static void updateRelatedRecordsAfterInsert(List<Batalha__c> novaBatalha) {
+        // Lista que vai armazenar os Ids dos registros dos objetos Saiyan__c e Vilao__c, respectivamente.
+        List<Id> saiyansToUpdate = new List<Id>();
+        List<Id> viloesToUpdate = new List<Id>();
+        
+        // Laço foreach que recebe a lista Trigger.new passada como parâmetro e itera sobre os registros.
+        for (Batalha__c batalha : novaBatalha) {
+            // Estrutura condicional para validar e certificar de que os campos de participantes
+            // não estejam vazios.
+            if (batalha.Participante_1__c != null && batalha.Participante_2__c != null) {
+                // Adiciona os participantes em suas respectivas listas
+                saiyansToUpdate.add(batalha.Participante_1__c);
+                viloesToUpdate.add(batalha.Participante_2__c);
+            }
+        }
+        
+        // Estrutura condicional para certificar-se de que as listas não estejam vazias e que haja registros
+        // relacionados para atualizar.
+        if (!saiyansToUpdate.isEmpty() && !viloesToUpdate.isEmpty()) {
+            // Listas que recebem instruções DML de Select para selecionar os objetos relacionados a serem atualizados baseados 
+            // em seu ID na lista.
+            List<Saiyan__c> saiyans = [SELECT Id, Name, esta_em_batalha__c FROM Saiyan__c WHERE Id IN :saiyansToUpdate];
+            List<Vilao__c> viloes = [SELECT Id, Name, esta_numa_batalhaVilao__c FROM Vilao__c WHERE Id IN :viloesToUpdate];
+            
+            // Laço de repetição for que itera sobre a lista saiyan com os registros relacionados.
+            for (Saiyan__c saiyan : saiyans) {
+                saiyan.esta_em_batalha__c = 'Sim';
+            }
+            
+            // Laço de repetição for que itera sobre a lista viloes com os registros relacionados.
+            for (Vilao__c vilao : viloes) {
+                vilao.esta_numa_batalhaVilao__c = 'Sim';
+            }
+            
+            // Atualiza os registros de Saiyan__c e Vilao__c.
+            update saiyans;
+            update viloes;
+        }
+    }
+    
+    // Método para lidar com a exclusão de registros de batalha e atualizar os status de "esta em batalha?" dos participantes.
+    public static void updateRelatedRecordsBeforeDelete(List<Batalha__c> antigaBatalha) {
+        // Lista que vai armazenar os Ids dos registros dos objetos Saiyan__c e Vilao__c, respectivamente.
+        List<Id> saiyansToUpdate = new List<Id>();
+        List<Id> viloesToUpdate = new List<Id>();
+        
+        // Laço foreach que recebe a lista Trigger.old passada como parâmetro e itera sobre os registros.
+        for (Batalha__c batalha : antigaBatalha) {
+            // Estrutura condicional para validar e certificar de que os campos de participantes
+            // não estejam vazios.
+            if (batalha.Participante_1__c != null && batalha.Participante_2__c != null) {
+                // Adiciona os participantes em suas respectivas listas.
+                saiyansToUpdate.add(batalha.Participante_1__c);
+                viloesToUpdate.add(batalha.Participante_2__c);
+            }
+        }
+        
+        // Estrutura condicional para certificar-se de que as listas não estejam vazias e que haja registros
+        // relacionados para atualizar.
+        if (!saiyansToUpdate.isEmpty() && !viloesToUpdate.isEmpty()) {
+            // Listas que recebem instruções DML de Select para selecionar os objetos relacionados a serem atualizados baseados 
+            // em seu ID na lista.
+            List<Saiyan__c> saiyans = [SELECT Id, Name, esta_em_batalha__c FROM Saiyan__c WHERE Id IN :saiyansToUpdate];
+            List<Vilao__c> viloes = [SELECT Id, Name, esta_numa_batalhaVilao__c FROM Vilao__c WHERE Id IN :viloesToUpdate];
+            
+            // Laço de repetição for que itera sobre a lista saiyan com os registros relacionados.
+            for (Saiyan__c saiyan : saiyans) {
+                saiyan.esta_em_batalha__c = 'Não';
+            }
+            
+            // Laço de repetição for que itera sobre a lista viloes com os registros relacionados.
+            for (Vilao__c vilao : viloes) {
+                vilao.esta_numa_batalhaVilao__c = 'Não';
+            }
+            
+            // Atualiza os registros de Saiyan__c e Vilao__c.
+            update saiyans;
+            update viloes;
+        }
+    }
+    
+    // Método que faz a contagem de quantas batalhas o registro está relacionado.
+    public static void howManyBattlesCounterAfterInsert(List<Batalha__c> novaBatalha) {
+        // Lista que vai armazenar os Ids dos registros dos objetos Saiyan__c e Vilao__c, respectivamente.
+        List<Id> updateSaiyans = new List<Id>();
+        List<Id> updateViloes = new List<Id>();
+        
+        // Laço foreach que recebe a lista Trigger.new passada como parâmetro e itera sobre os registros.
+        for (Batalha__c batalha : novaBatalha) {
+            // Estrutura condicional para validar e certificar de que os campos de participantes
+            // não estejam vazios.
+            if (batalha.Participante_1__c != null && batalha.Participante_2__c != null) {
+                // Adiciona os registros relacionados em suas respectivas listas.
+                updateSaiyans.add(batalha.Participante_1__c);
+                updateViloes.add(batalha.Participante_2__c);
+            }
+        }
+        
+        // Verifica se as listas estão vazias.
+        if (!updateSaiyans.isEmpty() && !updateViloes.isEmpty()) {
+            // Listas que recebem instruções DML de Select para selecionar os objetos relacionados a serem atualizados baseados 
+            // em seu ID na

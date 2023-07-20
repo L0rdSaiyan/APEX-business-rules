@@ -1,0 +1,14 @@
+public class ChamarFlow {
+
+    public static void chamarOFluxoDePessoas(String nomePessoa) {
+       
+          Map<String, Object> inputs = new Map<String, Object>();
+  		inputs.put('nomePessoinha', nomePessoa);  
+        
+         Flow.Interview.criarPessoinha myFlow = new Flow.Interview.criarPessoinha (inputs);
+  			myFlow.start();
+        
+        
+        
+    }
+}

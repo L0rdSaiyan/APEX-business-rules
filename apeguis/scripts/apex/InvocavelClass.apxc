@@ -1,0 +1,50 @@
+global class InvocavelClass {
+
+    // inner class contendo as variáveis com informações do flow
+    public class entradasDoFlow {
+
+        @invocableVariable(label = 'Id do Imóvel')
+        public Id recordId;
+
+        @invocableVariable(label = 'Nome do Imóvel')
+        public String recordName;
+    }
+
+    @InvocableMethod(label = 'Verifica Imóveis com Negligência')
+    public static void atualizaImoveis(List<entradasDoFlow> inputs) {
+
+        // Lista que irá receber os imóveis negligênciados
+        List<Imoveis__c> imvList = new List<Imoveis__c>();
+
+        // Eu sei que poderia otimizar o código fazendo o seguinte:
+        // [SELECT Id, LastModifiedDate, Negligencia__c FROM Imoveis__c WHERE Id IN :inputs]
+        // Por motivos didáticos, estou fazendo da maneira mais pé no chão
+
+        // Percorrendo a lista de parâmetros
+        for (entradasDoFlow edf : inputs) {
+            imvList.add([SELECT id, LastModifiedDate, negligencia__c FROM Imoveis__c WHERE id = :edf.recordId]);
+        }
+
+        System.debug('Valor da lista de imóveis: ' + imvList);
+
+        for (Imoveis__c imv : imvList) {
+
+            // Recebe o número entre a data da última modificação e a data atual
+            Integer diasEntre = Date.valueOf(imv.LastModifiedDate).daysBetween(system.today());
+
+            	System.debug('dias entre: '+diasEntre);
+            
+            if (diasEntre > 3 && diasEntre <= 10 && (imv.negligencia__c == '' || imv.negligencia__c == null)) {
+                imv.negligencia__c = 'de 3 a 10 dias';
+            }
+            if (diasEntre > 10 && diasEntre <= 15 && (imv.negligencia__c != 'de 3 a 15 dias')) {
+                imv.negligencia__c = 'de 10 a 15 dias';
+            }
+            if (diasEntre > 15 && imv.negligencia__c != 'mais de 15 dias') {
+                imv.negligencia__c = 'mais de 15 dias!';
+            }
+        }
+        // atualiza a lista de imóveis
+        update imvList;
+    }
+}

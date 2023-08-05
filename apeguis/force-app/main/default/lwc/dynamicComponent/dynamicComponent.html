@@ -1,0 +1,11 @@
+<template>
+  <lightning-card variant="Narrow" title="Hello" icon-name="utility:http">
+    <div class="content">
+      <p class="text">Hello, {myValue}!</p>
+    </div>
+    <br />
+    <div class="inputs">
+      <lightning-input type="text" label="Enter some text" value={myValue} onchange={handleChange}></lightning-input>
+    </div>
+  </lightning-card>
+</template>

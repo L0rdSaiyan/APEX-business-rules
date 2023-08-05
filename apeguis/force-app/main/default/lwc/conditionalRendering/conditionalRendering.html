@@ -1,0 +1,23 @@
+<template>
+    <lightning-card variant="Narrow" title="Conditional Rendering" icon-name="utility:http">
+      <div class="content">
+        <p class="text">Hello, {uppercaseName}!</p>
+      </div>
+      <br />
+      <div class="slds-p-around_small">
+      <lightning-input type="checkbox" label="Click me" name="clickMe" onchange={handleChange}></lightning-input>
+      <template if:true={showMe}>
+
+        <p>I'm Visible</p>
+
+      </template>
+
+      <template if:false={showMe}>
+
+        <p>I'm not visible </p>
+
+      </template>
+      </div>
+    </lightning-card>
+  </template>
+  

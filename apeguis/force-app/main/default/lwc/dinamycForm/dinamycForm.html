@@ -1,0 +1,15 @@
+<template>
+    <lightning-card variant="Narrow" title="Getter expression" icon-name="utility:http">
+      <div class="content">
+        <p class="text">Hello, {uppercaseName}!</p>
+      </div>
+      <br />
+      <div class="inputs">
+        <lightning-input type="text" name="firstName" label="First Name" value={myValue} onchange={handleChange}></lightning-input>
+        <br>
+        <lightning-input type="text" name="lastName"  label="Last Name" value={myValue} onchange={handleChange}></lightning-input>
+
+    </div>
+    </lightning-card>
+  </template>
+  

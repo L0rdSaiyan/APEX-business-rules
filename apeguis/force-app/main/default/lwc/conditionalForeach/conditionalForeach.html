@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Lista de Contatos">
+        <div class="slds-m-around_medium">
+            <button class="slds-button slds-button_outline-brand" label="Click me" onclick={toggleClicked}>Outline Brand Button</button>
+            <template if:true={clicked}>
+                <template for:each={contacts} for:item="contato">
+                    <p key={contato.id}>{contato.Name}</p>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

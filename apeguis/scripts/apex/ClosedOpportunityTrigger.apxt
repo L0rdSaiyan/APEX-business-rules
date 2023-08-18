@@ -1,0 +1,30 @@
+trigger ClosedOpportunityTrigger on Opportunity (after insert, after update) {
+    List<Task> newTasks = new List<Task>();
+
+    switch on Trigger.operationType {
+        when AFTER_INSERT {
+            for (Opportunity opp : Trigger.new) {
+                if (opp.StageName == 'Closed Won') {
+                    Task defaultTask = new Task();
+                    defaultTask.Subject = 'Tarefa de teste de acompanhamento';
+                    defaultTask.WhatId = opp.Id;
+                    newTasks.add(defaultTask);
+                }
+            }
+        }
+        when AFTER_UPDATE {
+            for (Opportunity opp : Trigger.new) {
+                if (opp.StageName == 'Closed Won') {
+                    Task defaultTask = new Task();
+                    defaultTask.Subject = 'Tarefa de teste de acompanhamento';
+                    defaultTask.WhatId = opp.Id;
+                    newTasks.add(defaultTask);
+                }
+            }
+        }
+    }
+
+    if (!newTasks.isEmpty()) {
+        insert newTasks;  // Insere as novas atividades
+    }
+}

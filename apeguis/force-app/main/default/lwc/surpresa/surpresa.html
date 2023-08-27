@@ -1,0 +1,31 @@
+<template>
+    
+    <lightning-card title="Pressione o botão abaixo para liberar o desconto!">
+
+
+        <div class="slds-m-bottom_small">
+
+            <div class="hiddenDiv">
+
+
+                <template if:true={clicked}>
+
+                    <iframe width="450" height="315" src="https://www.youtube.com/embed/GxbpZTBamj4?si=9lu0E9ONUtqNwW6b&amp;start=7&autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    
+                </template>
+              
+                <lightning-button variant="brand" label="Clique aqui!" class="btn" onclick={mostrarSurpresa}>Clique aqui!</lightning-button>
+    
+
+
+            </div>
+
+           
+
+            </div>
+
+
+    </lightning-card>
+
+
+</template>

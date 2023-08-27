@@ -1,0 +1,14 @@
+.hiddenDiv{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
